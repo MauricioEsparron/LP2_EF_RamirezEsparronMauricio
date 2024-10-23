@@ -19,16 +19,16 @@ public class UsuarioEntity {
 	@Column(name = "correo", nullable = false, length = 60)
 	private String correo;
 
+	@Column(name = "password", nullable = false)
+	private String password;
+
 	@Column(name = "nombres", nullable = false)
 	private String nombres;
 
 	@Column(name = "apellidos", nullable = false)
 	private String apellidos;
 
-	@Column(name = "fecha_nacimiento", columnDefinition = "CHAR(9)", length = 9, nullable = false)
-	private String celular;
-
-	@Column(name = "fechaNacimiento", nullable = false)
+	@Column(name = "fecha_nacimiento", nullable = false)
 	private String fechaNacimiento;
 
 	@Column(name = "url_imagen")
