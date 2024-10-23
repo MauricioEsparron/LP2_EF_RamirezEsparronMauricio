@@ -2,7 +2,7 @@ package pe.com.cibertec.service;
 
 import java.util.List;
 
-import pe.com.cibertec.controller.ProductoEntity;
+import pe.com.cibertec.mode.entity.ProductoEntity;
 
 public interface ProductoService {
 	List<ProductoEntity> buscarProductos();

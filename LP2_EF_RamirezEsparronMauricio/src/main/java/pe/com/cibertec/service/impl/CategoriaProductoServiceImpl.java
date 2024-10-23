@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import pe.com.cibertec.controller.CategoriaProductoEntity;
+import pe.com.cibertec.mode.entity.CategoriaProductoEntity;
 import pe.com.cibertec.reposity.CategoriaProductoRepository;
 import pe.com.cibertec.service.CategoriaProductoService;
 

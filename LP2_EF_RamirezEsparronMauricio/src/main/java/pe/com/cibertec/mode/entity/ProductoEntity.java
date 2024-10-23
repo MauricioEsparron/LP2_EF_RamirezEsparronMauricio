@@ -1,14 +1,12 @@
-package pe.com.cibertec.controller;
+package pe.com.cibertec.mode.entity;
 
-import java.util.List;
-
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -16,12 +14,12 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "tb_categoria")
+@Table(name = "tb_producto")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class CategoriaProductoEntity {
+public class ProductoEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer productoId;
@@ -29,6 +27,13 @@ public class CategoriaProductoEntity {
 	@Column(name = "nombre")
 	private String nombre;
 
-	@OneToMany(mappedBy = "categoriaProducto", cascade = CascadeType.ALL, orphanRemoval = true)
-	private List<ProductoEntity> productos;
+	@Column(name = "precio")
+	private Double precio;
+
+	@Column(name = "stock")
+	private Integer stock;
+
+	@ManyToOne
+	@JoinColumn(name = "categoria_producto", nullable = false)
+	private CategoriaProductoEntity categoriaProducto;
 }
