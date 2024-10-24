@@ -24,13 +24,13 @@ public class ProductoEntity {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer productoId;
 
-	@Column(name = "nombre")
+	@Column(name = "nombre", nullable = false)
 	private String nombre;
 
-	@Column(name = "precio")
+	@Column(name = "precio", nullable = false)
 	private Double precio;
 
-	@Column(name = "stock")
+	@Column(name = "stock", nullable = false)
 	private Integer stock;
 
 	@ManyToOne

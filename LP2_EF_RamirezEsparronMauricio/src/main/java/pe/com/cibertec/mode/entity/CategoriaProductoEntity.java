@@ -26,7 +26,7 @@ public class CategoriaProductoEntity {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
-	@Column(name = "nombre")
+	@Column(name = "nombre", nullable = false)
 	private String nombre;
 
 	@OneToMany(mappedBy = "categoriaProducto", cascade = CascadeType.ALL, orphanRemoval = true)

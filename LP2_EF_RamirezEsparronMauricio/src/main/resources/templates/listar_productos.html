@@ -26,6 +26,7 @@
 					<th>Precio</th>
 					<th>Stock</th>
 					<th>Categoría</th>
+					<th>Acciones</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -35,6 +36,13 @@
 					<td th:text="${producto.precio}"></td>
 					<td th:text="${producto.stock}"></td>
 					<td th:text="${producto.categoriaProducto.nombre}"></td>
+					<td>
+						<a th:href="@{/productos/detalle_producto/{id}(id=${producto.productoId})}"
+							class="btn btn-info btn-sm">Ver</a>
+						<a th:href="@{/productos/editar_producto/{id}(id=${producto.productoId})}"
+							class="btn btn-warning btn-sm">Editar</a>
+						<a th:href="@{delete/{id}(id=${producto.productoId})}" class="btn btn btn-danger">Eliminar</a>
+					</td>
 				</tr>
 			</tbody>
 		</table>
@@ -45,21 +53,18 @@
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 	<script>
 		function logout() {
-			// Lógica para cerrar sesión
 			alert('Cerrando sesión...');
-			window.location.href = "/login"; // Redirigir a la página de login
+			window.location.href = "/login";
 		}
 
 		function agregarProducto() {
-			// Lógica para agregar un producto
 			alert('Redirigiendo a agregar producto...');
-			window.location.href = "/productos/registrar_producto"; // Redirigir a la página de agregar producto
+			window.location.href = "/productos/registrar_producto";
 		}
 
 		function generarPDF() {
-			// Lógica para generar PDF
 			alert('Generando PDF...');
-			// Implementar la lógica para generar el PDF aquí
+			window.location.href = "/productos/generar_pdf";
 		}
 	</script>
 </body>

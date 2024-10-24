@@ -44,6 +44,8 @@ public class ProductoServiceImpl implements ProductoService {
 			productoEncontrado.setPrecio(productoActualizado.getPrecio());
 			productoEncontrado.setStock(productoActualizado.getStock());
 			productoEncontrado.setCategoriaProducto(productoActualizado.getCategoriaProducto());
+
+			productoRepository.save(productoEncontrado);
 		} catch (Exception e) {
 			throw new RuntimeException("Error al actualizar", e);
 		}

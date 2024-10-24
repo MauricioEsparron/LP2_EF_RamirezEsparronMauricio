@@ -1,8 +1,16 @@
 package pe.com.cibertec.controller;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,6 +25,7 @@ import pe.com.cibertec.mode.entity.CategoriaProductoEntity;
 import pe.com.cibertec.mode.entity.ProductoEntity;
 import pe.com.cibertec.service.CategoriaProductoService;
 import pe.com.cibertec.service.ProductoService;
+import pe.com.cibertec.service.PdfService; // Asegúrate de tener un servicio para manejar PDF
 
 @Controller
 @RequiredArgsConstructor
@@ -29,10 +38,13 @@ public class ProductoController {
 	@Autowired
 	private CategoriaProductoService categoriaProductoService;
 
+	@Autowired
+	private PdfService pdfService;
+
 	@GetMapping("/")
 	public String listarProductos(Model model, HttpSession session) {
 		String usuarioNombre = (String) session.getAttribute("usuario");
-		model.addAttribute("usuario", usuarioNombre); // Pasar al modelo
+		model.addAttribute("usuario", usuarioNombre);
 
 		List<ProductoEntity> listaProductos = productoService.buscarProductos();
 		model.addAttribute("lista_productos", listaProductos);
@@ -63,9 +75,9 @@ public class ProductoController {
 	@GetMapping("/editar_producto/{id}")
 	public String mostrarActualizarProducto(@PathVariable("id") Integer id, Model model) {
 		ProductoEntity producto = productoService.buscarProductoPorId(id);
+		model.addAttribute("producto", producto);
 		List<CategoriaProductoEntity> listaCategoriaProductos = categoriaProductoService.buscarCategoriaProductos();
 		model.addAttribute("listarCategoriaProductos", listaCategoriaProductos);
-		model.addAttribute("producto", producto);
 		return "editar_producto";
 	}
 
@@ -78,7 +90,33 @@ public class ProductoController {
 
 	@GetMapping("/delete/{id}")
 	public String eliminarProducto(@PathVariable("id") Integer id) {
-		productoService.eliminarProducto(id);
+		try {
+			productoService.eliminarProducto(id);
+		} catch (Exception e) {
+		}
 		return "redirect:/productos/";
+	}
+
+	@GetMapping("/generar_pdf")
+	public ResponseEntity<InputStreamResource> generarPdf(HttpSession session) throws IOException {
+		List<ProductoEntity> listaProductos = productoService.buscarProductos();
+
+		// Captura el nombre del usuario de la sesión
+		String nombreUsuario = (String) session.getAttribute("usuario");
+		if (nombreUsuario == null) {
+			nombreUsuario = "Desconocido"; // O un valor predeterminado
+		}
+
+		Map<String, Object> datosPdf = new HashMap<>();
+		datosPdf.put("productos", listaProductos);
+		datosPdf.put("nombreUsuario", nombreUsuario); // Añadir el nombre del usuario
+
+		ByteArrayInputStream pdfBytes = pdfService.generarPdf("template_pdf", datosPdf);
+
+		HttpHeaders headers = new HttpHeaders();
+		headers.add("Content-Disposition", "inline; filename=productos.pdf");
+
+		return ResponseEntity.ok().headers(headers).contentType(MediaType.APPLICATION_PDF)
+				.body(new InputStreamResource(pdfBytes));
 	}
 }
