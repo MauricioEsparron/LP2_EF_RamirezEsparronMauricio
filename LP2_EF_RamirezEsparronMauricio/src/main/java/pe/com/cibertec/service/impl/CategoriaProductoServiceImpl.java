@@ -3,11 +3,16 @@ package pe.com.cibertec.service.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+import lombok.RequiredArgsConstructor;
 import pe.com.cibertec.mode.entity.CategoriaProductoEntity;
 import pe.com.cibertec.reposity.CategoriaProductoRepository;
+import pe.com.cibertec.reposity.UsuarioRepository;
 import pe.com.cibertec.service.CategoriaProductoService;
 
+@Service
+@RequiredArgsConstructor
 public class CategoriaProductoServiceImpl implements CategoriaProductoService {
 
 	@Autowired
